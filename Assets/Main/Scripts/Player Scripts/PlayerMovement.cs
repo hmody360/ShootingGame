@@ -3,49 +3,51 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 10;
-    public float jumpForce = 3;
-    public float doubleJumpForce = 1;
-    public float rotationSpeed;
+    public float runSpeed = 15;
+    public float crouchSpeed = 5;
+    public float jumpForce = 5;
+    public float doubleJumpForce = 3;
+    public float rotationSpeed = 3;
+    public float NormalHeight = 1;
+    public float crouchHeight = 0.65f;
+    public bool canMove = true;
     public Transform cameraTransform;
 
-    private Rigidbody theRigidBody;
-    private Quaternion targetRotation;
+    private Rigidbody _theRigidBody;
+    private Quaternion _targetRotation;
+    private float _currentSpeed;
 
-    [SerializeField] private float groundCheckerOffset;
-    [SerializeField] private float groundCheckerRadius;
+    [SerializeField] private float _groundCheckerOffset = -0.9f;
+    [SerializeField] private float _groundCheckerRadius = 0.3f;
     [SerializeField] private LayerMask groundLayer;
-    //[SerializeField] private AudioSource[] SFXList;
-    [SerializeField] private bool isGrounded;
-    [SerializeField] private bool canDoubleJump;
-    
-
-
-    Vector3 movementDir;
+    [SerializeField] private AudioSource[] SFXSourceList;
+    [SerializeField] private AudioClip[] SFXClipList;
+    [SerializeField] private bool _isGrounded;
+    [SerializeField] private bool _isCrouched = false;
+    [SerializeField] private bool _isSprinting = false;
+    [SerializeField] private bool _canDoubleJump;
+    [SerializeField] private bool _canSprint;
+    [SerializeField] private bool _canUncrouch = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created.
     void Start()
     {
-        theRigidBody = GetComponent<Rigidbody>(); //Getting Rigidbody from Player Object.
-        targetRotation = transform.rotation;
+        _theRigidBody = GetComponent<Rigidbody>(); //Getting Rigidbody from Player Object.
+        _targetRotation = transform.rotation;
         Cursor.lockState = CursorLockMode.Locked;
-        theRigidBody.freezeRotation = true;
+        _theRigidBody.freezeRotation = true; //This is to stop other game objects from affecting the player's rotation
+        _currentSpeed = speed;
     }
 
     private void Update()
     {
-        // Allow Player to jump if on ground and jump button pressed.
-        if (isGrounded && Input.GetButtonDown("Jump"))
+        if (canMove)
         {
-            theRigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            canDoubleJump = true;
-            //SFXList[1].PlayOneShot(SFXList[1].clip);
+            jump();
+            sprint();
+            crouch();
         }
-        // Allow Player to double jump if NOT on ground and jump button pressed.
-        if (!isGrounded && canDoubleJump && Input.GetButtonDown("Jump"))
-        {
-            theRigidBody.AddForce(Vector3.up * doubleJumpForce, ForceMode.Impulse);
-            canDoubleJump = false;
-            //SFXList[1].PlayOneShot(SFXList[1].clip);
-        }
+
+
 
 
     }
@@ -53,20 +55,36 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame.
     void FixedUpdate()
     {
-        isGrounded = Physics.CheckSphere(transform.position + Vector3.up * groundCheckerOffset, groundCheckerRadius, groundLayer); //Checking if player is on ground.
+        if (canMove)
+        {
+            moveAndRotate();
+        }
+
+
+
+    }
+
+    public void toggleUncroucher(bool toggle)
+    {
+        _canUncrouch = toggle;
+    }
+
+    private void moveAndRotate()
+    {
+        _isGrounded = Physics.CheckSphere(transform.position + Vector3.up * _groundCheckerOffset, _groundCheckerRadius, groundLayer); //Checking if player is on ground.
         float Horizontal = Input.GetAxis("Horizontal"); //Defining Char X Axis.
         float Vertical = Input.GetAxis("Vertical"); //Defining Char Z Axis.
 
-        bool isWalking = ((Horizontal != 0 || Vertical != 0) && isGrounded); //Check if player is walking to play walkingSFX
+        bool isWalking = ((Horizontal != 0 || Vertical != 0) && _isGrounded); //Check if player is walking to play walkingSFX
 
-        //if(isWalking && !SFXList[0].isPlaying) //if player is walking and the walking audio source is not playing, play it.
-        //{
-        //    SFXList[0].Play();
-        //}
-        //else if(!isWalking && SFXList[0].isPlaying) //if player STOPPED walking and the walking audio source is playing, stop it.
-        //{
-        //    SFXList[0].Stop();
-        //}
+        if (isWalking && !SFXSourceList[0].isPlaying) //if player is walking and the walking audio source is not playing, play it.
+        {
+            SFXSourceList[0].Play();
+        }
+        else if (!isWalking && SFXSourceList[0].isPlaying) //if player STOPPED walking and the walking audio source is playing, stop it.
+        {
+            SFXSourceList[0].Stop();
+        }
 
         // Camera Controls (for Realtive Movement)
         // Taking the Camera Forward and Right
@@ -81,27 +99,81 @@ public class PlayerMovement : MonoBehaviour
         Vector3 forwardRealtive = Vertical * cameraForward;
         Vector3 rightRealtive = Horizontal * cameraRight;
 
-        movementDir = (forwardRealtive + rightRealtive).normalized * speed; //assigning movement with camera direction in mind, also using normalized to make movement in corner dierctions the same as normal directions (not faster)
+        Vector3 movementDir = (forwardRealtive + rightRealtive).normalized * _currentSpeed; //assigning movement with camera direction in mind, also using normalized to make movement in corner dierctions the same as normal directions (not faster)
 
         //Movement
-        theRigidBody.linearVelocity = new Vector3(movementDir.x, theRigidBody.linearVelocity.y, movementDir.z); // Changing the velocity based on Horizontal and Vertical Movements alongside camera direction.
+        _theRigidBody.linearVelocity = new Vector3(movementDir.x, _theRigidBody.linearVelocity.y, movementDir.z); // Changing the velocity based on Horizontal and Vertical Movements alongside camera direction.
 
         //Rotation
-        Vector3 targetDirection = new Vector3(movementDir.x, 0f, movementDir.z); //Taking the direction the player is currently facing
-        
-        if (targetDirection != Vector3.zero) //on player movement
+        Vector3 lookDirection = cameraForward; //Taking the direction the camera is currently facing
+
+        if (lookDirection != Vector3.zero) //on player movement
         {
-            targetRotation = Quaternion.LookRotation(targetDirection); // makes the target rotation that we want the player to move to
+            _targetRotation = Quaternion.LookRotation(lookDirection); // makes the target rotation that we want the player to move to
         }
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime); //Using lerp to smooth the player rotation using current rotation, target rotaion and rotation speed.
-        
+        transform.rotation = Quaternion.Lerp(transform.rotation, _targetRotation, rotationSpeed * Time.deltaTime); //Using lerp to smooth the player rotation using current rotation, target rotaion and rotation speed.
+    }
 
+    private void jump()
+    {
+        // Allow Player to jump if on ground and jump button pressed.
+        if (_isGrounded && !_isCrouched && Input.GetButtonDown("Jump"))
+        {
+            _theRigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            _canDoubleJump = true;
+            SFXSourceList[1].PlayOneShot(SFXClipList[3]);
+        }
+        // Allow Player to double jump if NOT on ground and jump button pressed.
+        if (!_isGrounded && !_isCrouched && _canDoubleJump && Input.GetButtonDown("Jump"))
+        {
+            _theRigidBody.AddForce(Vector3.up * doubleJumpForce, ForceMode.Impulse);
+            _canDoubleJump = false;
+            SFXSourceList[1].PlayOneShot(SFXClipList[4]);
+        }
+    }
+
+    private void sprint()
+    {
+        //Sprint Code
+        if (_isGrounded && !_isCrouched && Input.GetKey(KeyCode.LeftShift))
+        {
+            SFXSourceList[0].clip = SFXClipList[2];
+            _currentSpeed = runSpeed;
+            _isSprinting = true;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            SFXSourceList[0].clip = SFXClipList[0];
+            _currentSpeed = speed;
+            _isSprinting = false;
+        }
+    }
+
+    private void crouch()
+    {
+        //Crouch Code
+        if (_isGrounded && !_isCrouched && !_isSprinting && Input.GetKeyDown(KeyCode.Tab))
+        {
+            transform.localScale = new Vector3(1f, crouchHeight, 1f);
+            _isCrouched = true;
+            _currentSpeed = crouchSpeed;
+            SFXSourceList[0].clip = SFXClipList[1];
+            SFXSourceList[2].PlayOneShot(SFXClipList[5]);
+        }
+        else if (_isCrouched && _canUncrouch && Input.GetKeyDown(KeyCode.Tab))
+        {
+            transform.localScale = new Vector3(1f, NormalHeight, 1f);
+            _isCrouched = false;
+            _currentSpeed = speed;
+            SFXSourceList[0].clip = SFXClipList[0];
+            SFXSourceList[2].PlayOneShot(SFXClipList[6]);
+        }
     }
 
     private void OnDrawGizmos() //Gizmo to draw the ground checker sphere.
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + Vector3.up * groundCheckerOffset, groundCheckerRadius);
+        Gizmos.DrawWireSphere(transform.position + Vector3.up * _groundCheckerOffset, _groundCheckerRadius);
     }
 }
