@@ -11,12 +11,12 @@ public class PlayerMovement : MonoBehaviour
     public float NormalHeight = 1;
     public float crouchHeight = 0.65f;
     public bool canMove = true;
-    public Transform cameraTransform;
 
     private Rigidbody _theRigidBody;
     private Quaternion _targetRotation;
     private float _currentSpeed;
 
+    [SerializeField] private Transform _cameraTransform;
     [SerializeField] private float _groundCheckerOffset = -0.9f;
     [SerializeField] private float _groundCheckerRadius = 0.3f;
     [SerializeField] private LayerMask groundLayer;
@@ -29,9 +29,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool _canSprint;
     [SerializeField] private bool _canUncrouch = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created.
-    void Start()
+
+    private void Awake()
     {
         _theRigidBody = GetComponent<Rigidbody>(); //Getting Rigidbody from Player Object.
+        _cameraTransform = Camera.main.transform;
+    }
+    void Start()
+    {
+        
         _targetRotation = transform.rotation;
         Cursor.lockState = CursorLockMode.Locked;
         _theRigidBody.freezeRotation = true; //This is to stop other game objects from affecting the player's rotation
@@ -88,8 +94,8 @@ public class PlayerMovement : MonoBehaviour
 
         // Camera Controls (for Realtive Movement)
         // Taking the Camera Forward and Right
-        Vector3 cameraForward = cameraTransform.forward;
-        Vector3 cameraRight = cameraTransform.right;
+        Vector3 cameraForward = _cameraTransform.forward;
+        Vector3 cameraRight = _cameraTransform.right;
 
         //freezing the camera's y axis as we don't want it to be affected for the direction
         cameraForward.y = 0f;
@@ -131,6 +137,8 @@ public class PlayerMovement : MonoBehaviour
             _canDoubleJump = false;
             SFXSourceList[1].PlayOneShot(SFXClipList[4]);
         }
+
+        
     }
 
     private void sprint()
