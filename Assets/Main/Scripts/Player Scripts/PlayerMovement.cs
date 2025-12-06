@@ -21,9 +21,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform _cameraTransform;
     [SerializeField] private float _groundCheckerOffset = -0.9f;
     [SerializeField] private float _groundCheckerRadius = 0.3f;
-    [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private AudioSource[] SFXSourceList;
-    [SerializeField] private AudioClip[] SFXClipList;
+    [SerializeField] private LayerMask _groundLayer;
+    [SerializeField] private AudioSource[] _SFXSourceList;
+    [SerializeField] private AudioClip[] _SFXClipList;
     [SerializeField] private bool _isGrounded;
     [SerializeField] private bool _isCrouched = false;
     [SerializeField] private bool _isSprinting = false;
@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (canMove)
+        if (canMove) //if player can move (Not Dead) allow them to jump, sprint and crouch
         {
             jump();
             sprint();
@@ -63,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame.
     void FixedUpdate()
     {
-        if (canMove)
+        if (canMove) //if player can move (Not Dead) allow them to move
         {
             moveAndRotate();
         }
@@ -79,19 +79,19 @@ public class PlayerMovement : MonoBehaviour
 
     private void moveAndRotate()
     {
-        _isGrounded = Physics.CheckSphere(transform.position + Vector3.up * _groundCheckerOffset, _groundCheckerRadius, groundLayer); //Checking if player is on ground.
+        _isGrounded = Physics.CheckSphere(transform.position + Vector3.up * _groundCheckerOffset, _groundCheckerRadius, _groundLayer); //Checking if player is on ground.
         float Horizontal = Input.GetAxis("Horizontal"); //Defining Char X Axis.
         float Vertical = Input.GetAxis("Vertical"); //Defining Char Z Axis.
 
         bool isWalking = ((Horizontal != 0 || Vertical != 0) && _isGrounded); //Check if player is walking to play walkingSFX
 
-        if (isWalking && !SFXSourceList[0].isPlaying) //if player is walking and the walking audio source is not playing, play it.
+        if (isWalking && !_SFXSourceList[0].isPlaying) //if player is walking and the walking audio source is not playing, play it.
         {
-            SFXSourceList[0].Play();
+            _SFXSourceList[0].Play();
         }
-        else if (!isWalking && SFXSourceList[0].isPlaying) //if player STOPPED walking and the walking audio source is playing, stop it.
+        else if (!isWalking && _SFXSourceList[0].isPlaying) //if player STOPPED walking and the walking audio source is playing, stop it.
         {
-            SFXSourceList[0].Stop();
+            _SFXSourceList[0].Stop();
         }
 
         //Stamina Checking
@@ -142,14 +142,14 @@ public class PlayerMovement : MonoBehaviour
         {
             _theRigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             _canDoubleJump = true;
-            SFXSourceList[1].PlayOneShot(SFXClipList[3]);
+            _SFXSourceList[1].PlayOneShot(_SFXClipList[3]);
         }
         // Allow Player to double jump if NOT on ground and jump button pressed.
         if (!_isGrounded && !_isCrouched && _canDoubleJump && Input.GetButtonDown("Jump"))
         {
             _theRigidBody.AddForce(Vector3.up * doubleJumpForce, ForceMode.Impulse);
             _canDoubleJump = false;
-            SFXSourceList[1].PlayOneShot(SFXClipList[4]);
+            _SFXSourceList[1].PlayOneShot(_SFXClipList[4]);
         }
 
 
@@ -160,13 +160,13 @@ public class PlayerMovement : MonoBehaviour
         //Sprint Code
         if (_isGrounded && !_isCrouched && _canSprint && Input.GetKey(KeyCode.LeftShift))
         {
-            SFXSourceList[0].clip = SFXClipList[2];
+            _SFXSourceList[0].clip = _SFXClipList[2];
             _currentSpeed = runSpeed;
             _isSprinting = true;
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift) || !_canSprint)
         {
-            SFXSourceList[0].clip = SFXClipList[0];
+            _SFXSourceList[0].clip = _SFXClipList[0];
             _currentSpeed = speed;
             _isSprinting = false;
         }
@@ -176,9 +176,10 @@ public class PlayerMovement : MonoBehaviour
         {
             currentStamina = 0;
             _canSprint = false;
+            _SFXSourceList[3].PlayOneShot(_SFXClipList[7]);
         }
 
-        if(currentStamina >= maxStamina)
+        if (currentStamina >= maxStamina)
         {
             currentStamina = maxStamina;
             _canSprint = true;
@@ -193,16 +194,16 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = new Vector3(1f, crouchHeight, 1f);
             _isCrouched = true;
             _currentSpeed = crouchSpeed;
-            SFXSourceList[0].clip = SFXClipList[1];
-            SFXSourceList[2].PlayOneShot(SFXClipList[5]);
+            _SFXSourceList[0].clip = _SFXClipList[1];
+            _SFXSourceList[2].PlayOneShot(_SFXClipList[5]);
         }
         else if (_isCrouched && _canUncrouch && Input.GetKeyDown(KeyCode.Tab))
         {
             transform.localScale = new Vector3(1f, NormalHeight, 1f);
             _isCrouched = false;
             _currentSpeed = speed;
-            SFXSourceList[0].clip = SFXClipList[0];
-            SFXSourceList[2].PlayOneShot(SFXClipList[6]);
+            _SFXSourceList[0].clip = _SFXClipList[0];
+            _SFXSourceList[2].PlayOneShot(_SFXClipList[6]);
         }
     }
 

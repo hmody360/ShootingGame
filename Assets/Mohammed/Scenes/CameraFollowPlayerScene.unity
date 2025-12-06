@@ -482,6 +482,10 @@ PrefabInstance:
       propertyPath: currentStamina
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5591288344093262907, guid: be86f829e0ba7904191bcf4cb5803dcd, type: 3}
+      propertyPath: _groundLayer.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
