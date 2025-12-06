@@ -8,6 +8,7 @@ public class RayGun : MonoBehaviour, Iinteractable
     public int currentAmmo = 10;
     public float shootForce = 50f;
     public float fireRate = 0.2f;
+    public bool isEqipped = false;
 
     private Rigidbody _weaponRB;
     private BoxCollider _weaponCollider;
@@ -18,7 +19,7 @@ public class RayGun : MonoBehaviour, Iinteractable
     [SerializeField] private float _fireTimer;
     [SerializeField] private Transform _cameraTransform;
     [SerializeField] private ParticleSystem _MuzzleShot;
-    [SerializeField] private bool isEqipped = false;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
@@ -88,6 +89,11 @@ public class RayGun : MonoBehaviour, Iinteractable
                 Rigidbody shotRB = Shot.GetComponent<Rigidbody>();
                 shotRB.linearVelocity = _cameraTransform.forward * shootForce;
 
+            }
+            else
+            {
+                _weaponAudioSource.PlayOneShot(_weaponSounds[3]);
+                _fireTimer = 0f;
             }
         }
         {

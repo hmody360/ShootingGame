@@ -5,6 +5,8 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 10;
     public float runSpeed = 15;
     public float crouchSpeed = 5;
+    public float maxStamina = 20;
+    public float currentStamina = 20;
     public float jumpForce = 5;
     public float doubleJumpForce = 3;
     public float rotationSpeed = 3;
@@ -92,9 +94,21 @@ public class PlayerMovement : MonoBehaviour
             SFXSourceList[0].Stop();
         }
 
-        // Camera Controls (for Realtive Movement)
-        // Taking the Camera Forward and Right
-        Vector3 cameraForward = _cameraTransform.forward;
+        //Stamina Checking
+        if(isWalking && _isSprinting)
+        {
+            currentStamina -= Time.deltaTime;
+        }else if (!_isSprinting)
+        {
+            if(currentStamina < maxStamina)
+            {
+                currentStamina += Time.deltaTime;
+            }
+        }
+
+            // Camera Controls (for Realtive Movement)
+            // Taking the Camera Forward and Right
+            Vector3 cameraForward = _cameraTransform.forward;
         Vector3 cameraRight = _cameraTransform.right;
 
         //freezing the camera's y axis as we don't want it to be affected for the direction
@@ -138,23 +152,36 @@ public class PlayerMovement : MonoBehaviour
             SFXSourceList[1].PlayOneShot(SFXClipList[4]);
         }
 
-        
+
     }
 
     private void sprint()
     {
         //Sprint Code
-        if (_isGrounded && !_isCrouched && Input.GetKey(KeyCode.LeftShift))
+        if (_isGrounded && !_isCrouched && _canSprint && Input.GetKey(KeyCode.LeftShift))
         {
             SFXSourceList[0].clip = SFXClipList[2];
             _currentSpeed = runSpeed;
             _isSprinting = true;
         }
-        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        else if (Input.GetKeyUp(KeyCode.LeftShift) || !_canSprint)
         {
             SFXSourceList[0].clip = SFXClipList[0];
             _currentSpeed = speed;
             _isSprinting = false;
+        }
+
+        //Stamina Code
+        if (currentStamina <= 0)
+        {
+            currentStamina = 0;
+            _canSprint = false;
+        }
+
+        if(currentStamina >= maxStamina)
+        {
+            currentStamina = maxStamina;
+            _canSprint = true;
         }
     }
 

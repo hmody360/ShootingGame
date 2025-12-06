@@ -7,7 +7,7 @@ public class Shot : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if(other.collider.CompareTag("Player") || other.collider.CompareTag("Enemy"))
+        if (other.collider.CompareTag("Player") || other.collider.CompareTag("Enemy"))
         {
             Destroy(other.gameObject);
             Destroy(gameObject);
