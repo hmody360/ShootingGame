@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class MainMenu : MonoBehaviour
     public GameObject collectiblesPanel;
     public GameObject LosePanel;
     public GameObject winPanel;
+
+    public Image[] collectibleSlots;
 
     void Start()
     {
@@ -60,5 +63,22 @@ public class MainMenu : MonoBehaviour
         HUD.SetActive(false);
         winPanel.SetActive(true);
     }
+
+
+
+    public void AddCollectible(Sprite itemIcon)
+    {
+        for (int i = 0; i < collectibleSlots.Length; i++)
+        {
+            if (collectibleSlots[i].sprite == null)
+            {
+                collectibleSlots[i].sprite = itemIcon;
+                return;
+            }
+        }
+
+    }
+
+
 
 }
