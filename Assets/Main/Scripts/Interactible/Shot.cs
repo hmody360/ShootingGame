@@ -3,13 +3,16 @@ using UnityEngine;
 
 public class Shot : MonoBehaviour
 {
+    public float damage;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.collider.CompareTag("Player") || other.collider.CompareTag("Enemy"))
+        if (other.collider.CompareTag("Enemy"))
         {
-            Destroy(other.gameObject);
+            IDamageable enemyHealth = other.gameObject.GetComponent<IDamageable>();
+
+            enemyHealth.takeDamage(damage);
             Destroy(gameObject);
         }
         else

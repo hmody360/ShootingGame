@@ -72,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    public void toggleUncroucher(bool toggle)
+    public void toggleUncroucher(bool toggle) // activate/deactivate ability to uncrouch
     {
         _canUncrouch = toggle;
     }
