@@ -362,6 +362,7 @@ GameObject:
   - component: {fileID: 8081078024992936813}
   - component: {fileID: 5591288344093262907}
   - component: {fileID: 3132478068126889906}
+  - component: {fileID: 3498758722464363850}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -557,6 +558,19 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 50
   _deathAudioSource: {fileID: 4538173069636436812}
+--- !u!114 &3498758722464363850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2352748427257522548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af965cab613f5f54987dcae3fa57ef7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
+  itemlist: []
 --- !u!1 &2794902924322665612
 GameObject:
   m_ObjectHideFlags: 0
