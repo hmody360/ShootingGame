@@ -1,12 +1,13 @@
 using UnityEngine;
+using System.Collections;
 
 public class FakeWinSequence : MonoBehaviour
 {
-    public GameObject FakeWinPanel;  
-    public GameObject FakeLosePanel;  
+    public GameObject FakeWinPanel;
+    public GameObject FakeLosePanel;
 
-    public float winTime = 3f;        
-    public float loseTime = 3f;      
+    public float winTime = 3f;
+    public float loseTime = 3f;
 
     public void StartSequence()
     {
@@ -24,5 +25,6 @@ public class FakeWinSequence : MonoBehaviour
         yield return new WaitForSeconds(loseTime);
 
     }
+}
 
    
