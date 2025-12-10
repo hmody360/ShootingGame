@@ -44,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         _theRigidBody.freezeRotation = true; //This is to stop other game objects from affecting the player's rotation
         _currentSpeed = speed;
+        currentStamina = maxStamina;
     }
 
     private void Update()
@@ -189,7 +190,7 @@ public class PlayerMovement : MonoBehaviour
     private void crouch()
     {
         //Crouch Code
-        if (_isGrounded && !_isCrouched && !_isSprinting && Input.GetKeyDown(KeyCode.Tab))
+        if (_isGrounded && !_isCrouched && !_isSprinting && Input.GetKeyDown(KeyCode.LeftControl))
         {
             transform.localScale = new Vector3(1f, crouchHeight, 1f);
             _isCrouched = true;
@@ -197,7 +198,7 @@ public class PlayerMovement : MonoBehaviour
             _SFXSourceList[0].clip = _SFXClipList[1];
             _SFXSourceList[2].PlayOneShot(_SFXClipList[5]);
         }
-        else if (_isCrouched && _canUncrouch && Input.GetKeyDown(KeyCode.Tab))
+        else if (_isCrouched && _canUncrouch && Input.GetKeyDown(KeyCode.LeftControl))
         {
             transform.localScale = new Vector3(1f, NormalHeight, 1f);
             _isCrouched = false;
