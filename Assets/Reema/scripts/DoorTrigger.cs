@@ -6,7 +6,7 @@ public class DoorTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("Enemy"))
         {
             Debug.Log("player opened the door");
             doorAnimator.SetBool("isOpen", true);
@@ -15,7 +15,7 @@ public class DoorTrigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("Enemy"))
         {
             Debug.Log("player closed the door");
             doorAnimator.SetBool("isOpen", false);
