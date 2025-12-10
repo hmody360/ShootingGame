@@ -11,7 +11,6 @@ public class escapeitem : MonoBehaviour, Iinteractable
     private void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
-        //Destroy(Hit.transform.root.gameObject); //wtvthe ray hits (mesh or collider) the "root" part gets to the parent of the object and destroys it
     }
     public void interact()
     {
@@ -20,7 +19,7 @@ public class escapeitem : MonoBehaviour, Iinteractable
             Player.GetComponent<PlayerInventory>().Additem(gameObject);
             if (destroyOnInteract)  //-for destroying the picked up items not the ID drawer
             {
-                Destroy(transform.root.gameObject);
+                Destroy(gameObject);
             }
         }
     }

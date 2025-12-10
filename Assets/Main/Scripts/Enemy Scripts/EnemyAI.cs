@@ -32,10 +32,17 @@ public class EnemyAI : MonoBehaviour, IDamageable
     public float attackDamage = 10f;
     public float attackCooldown = 3f;
     [SerializeField] float Timer = 0f;
+    //Animator
+    private Animator _alienAnimator;
 
     bool isChasing = false;
    
     bool DetectPlayed = false;
+
+    private void Awake()
+    {
+        _alienAnimator = GetComponent<Animator>();
+    }
     void Start()
     {
         
@@ -127,10 +134,14 @@ public class EnemyAI : MonoBehaviour, IDamageable
         //attack player
         if (distToPlayer <= attackRange && Timer >= attackCooldown)
         {
-
+            _alienAnimator.SetTrigger("HitTrigger");
             player.GetComponent<IDamageable>().takeDamage(attackDamage);
             Timer = 0;
         }
+
+            //Animator valued updating
+            _alienAnimator.SetBool("isStopped", agent.isStopped);
+        _alienAnimator.SetBool("isChasing", isChasing);
     }
     // patrol behavior
     void Patrol()
@@ -173,6 +184,17 @@ public class EnemyAI : MonoBehaviour, IDamageable
         agent.SetDestination(targetPos);
         // rotate to face the player
         LookAt(player.position);
+
+        //Stop when the player has been reached
+        if(agent.remainingDistance <= agent.stoppingDistance)
+        {
+            agent.isStopped = true;
+        }
+        else
+        {
+            agent.isStopped = false;
+        }
+
         // sound effects
         if (!WalkSFX.isPlaying)
         {
@@ -213,7 +235,9 @@ public class EnemyAI : MonoBehaviour, IDamageable
   public  void onDeath()
     {
         // remove enemy from the scene
-        Destroy(gameObject);
+        agent.isStopped = true;
+        _alienAnimator.SetTrigger("DeathTrigger");
+        Destroy(transform.parent.gameObject, 1f);
     }
 
     // debug gizmos
