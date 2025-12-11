@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
 
 
 public class UIManger : MonoBehaviour
@@ -25,8 +26,8 @@ public class UIManger : MonoBehaviour
     public Image[] collectibleSlots;
 
     [Header("Ammo UI")]
-    public Text currentAmmoUI;
-    public Text maxAmmoUI;
+    public TextMeshProUGUI currentAmmoUI;
+    public TextMeshProUGUI maxAmmoUI;
 
     //Damage Screen
     [Header("UI Damege")]
@@ -52,12 +53,27 @@ public class UIManger : MonoBehaviour
     //bool lowHpSoundPlayed = false;
     Coroutine damageRoutine;
 
+    public static UIManger instance;
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            // Otherwise, set this instance as the singleton instance
+            instance = this;
+        }
+    }
+
 
     void Start()
     {
         HUD.SetActive(true);
         hudBase.SetActive(true);
-        hudWeapon.SetActive(true);
+        hudWeapon.SetActive(false);
     }
 
     //UI UPDATE METHODS
@@ -126,7 +142,7 @@ public class UIManger : MonoBehaviour
     }
 
 
-    //Collect Items
+    //Collect and use Items
     public void AddCollectible(Sprite itemIcon)
     {
         for (int i = 0; i < collectibleSlots.Length; i++)
@@ -134,10 +150,23 @@ public class UIManger : MonoBehaviour
             if (collectibleSlots[i].sprite == null)
             {
                 collectibleSlots[i].sprite = itemIcon;
+                collectibleSlots[i].color = Color.white;
                 return;
             }
         }
+    }
 
+    public void RemoveCollectible(Sprite itemIcon)
+    {
+        for (int i = 0; i < collectibleSlots.Length; i++)
+        {
+            if (collectibleSlots[i].sprite == itemIcon)
+            {
+                collectibleSlots[i].sprite = null;
+                collectibleSlots[i].color = Color.clear;
+                return;
+            }
+        }
     }
 
     // damege Screen

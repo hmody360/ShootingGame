@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3278138610174398829}
   - component: {fileID: 4221356537594081724}
   - component: {fileID: 3572170374054184072}
+  - component: {fileID: 7749961732096891910}
   m_Layer: 6
   m_Name: RayGun
   m_TagString: Weapon
@@ -54,14 +55,15 @@ MonoBehaviour:
   currentAmmo: 10
   shootForce: 50
   fireRate: 0.2
+  isEqipped: 0
   _weaponSounds:
   - {fileID: 8300000, guid: 0eb3a52dc2505db4e8b88ac7a0792f38, type: 3}
   - {fileID: 8300000, guid: f9025462684017f419b4b6f8f26a804b, type: 3}
   - {fileID: 8300000, guid: cfad1d345eb348b44be3909d8c5fc121, type: 3}
+  - {fileID: 8300000, guid: 0c4f417b27a9bc949b9273dd3a62572f, type: 3}
   _fireTimer: 0
   _cameraTransform: {fileID: 0}
   _MuzzleShot: {fileID: 4561369182933321424}
-  isEqipped: 0
 --- !u!54 &3278138610174398829
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -207,6 +209,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7749961732096891910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2888077845606302358}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Outline
+  outlineMode: 0
+  outlineColor: {r: 0.42031327, g: 0.70369405, b: 0.93207544, a: 1}
+  outlineWidth: 5
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+  outlineMaskMaterial: {fileID: 2100000, guid: 106f3ff43a17d4967a2b64c7a92e49ec, type: 2}
+  outlineFillMaterial: {fileID: 2100000, guid: 311313efa011949e98b6761d652ad13c, type: 2}
 --- !u!1 &2935109497697804091
 GameObject:
   m_ObjectHideFlags: 0

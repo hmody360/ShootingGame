@@ -365,6 +365,7 @@ GameObject:
   - component: {fileID: 665531859789498371}
   - component: {fileID: 3417518529652480276}
   - component: {fileID: 2241420316491217238}
+  - component: {fileID: 497848710026829558}
   m_Layer: 0
   m_Name: Alien
   m_TagString: Enemy
@@ -486,6 +487,33 @@ CapsuleCollider:
   m_Height: 2.9317465
   m_Direction: 1
   m_Center: {x: 0, y: 1.499486, z: 0}
+--- !u!54 &497848710026829558
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486417180756146519}
+  serializedVersion: 5
+  m_Mass: 10
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 4
+  m_CollisionDetection: 0
 --- !u!1 &1657689651810873519
 GameObject:
   m_ObjectHideFlags: 0

@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioClip[] _SFXClipList;
     [SerializeField] private bool _isGrounded;
     [SerializeField] private bool _isCrouched = false;
+    [SerializeField] private bool _isWalking;
     [SerializeField] private bool _isSprinting = false;
     [SerializeField] private bool _canDoubleJump;
     [SerializeField] private bool _canSprint;
@@ -39,12 +40,14 @@ public class PlayerMovement : MonoBehaviour
     }
     void Start()
     {
-        
+
         _targetRotation = transform.rotation;
         Cursor.lockState = CursorLockMode.Locked;
         _theRigidBody.freezeRotation = true; //This is to stop other game objects from affecting the player's rotation
         _currentSpeed = speed;
         currentStamina = maxStamina;
+
+        UIManger.instance.UpdateStamina(currentStamina, maxStamina);
     }
 
     private void Update()
@@ -84,26 +87,29 @@ public class PlayerMovement : MonoBehaviour
         float Horizontal = Input.GetAxis("Horizontal"); //Defining Char X Axis.
         float Vertical = Input.GetAxis("Vertical"); //Defining Char Z Axis.
 
-        bool isWalking = ((Horizontal != 0 || Vertical != 0) && _isGrounded); //Check if player is walking to play walkingSFX
+        _isWalking = ((Horizontal != 0 || Vertical != 0) && _isGrounded); //Check if player is walking to play walkingSFX
 
-        if (isWalking && !_SFXSourceList[0].isPlaying) //if player is walking and the walking audio source is not playing, play it.
+        if (_isWalking && !_SFXSourceList[0].isPlaying) //if player is walking and the walking audio source is not playing, play it.
         {
             _SFXSourceList[0].Play();
         }
-        else if (!isWalking && _SFXSourceList[0].isPlaying) //if player STOPPED walking and the walking audio source is playing, stop it.
+        else if (!_isWalking && _SFXSourceList[0].isPlaying) //if player STOPPED walking and the walking audio source is playing, stop it.
         {
             _SFXSourceList[0].Stop();
         }
 
         //Stamina Checking
-        if(isWalking && _isSprinting)
+        if(_isWalking && _isSprinting)
         {
             currentStamina -= Time.deltaTime;
-        }else if (!_isSprinting)
+            UIManger.instance.UpdateStamina(currentStamina, maxStamina);
+        }
+        else if (!_isSprinting)
         {
             if(currentStamina < maxStamina)
             {
                 currentStamina += Time.deltaTime;
+                UIManger.instance.UpdateStamina(currentStamina, maxStamina);
             }
         }
 
@@ -159,13 +165,13 @@ public class PlayerMovement : MonoBehaviour
     private void sprint()
     {
         //Sprint Code
-        if (_isGrounded && !_isCrouched && _canSprint && Input.GetKey(KeyCode.LeftShift))
+        if (_isGrounded && !_isCrouched && _canSprint && Input.GetKey(KeyCode.LeftShift) && _isWalking)
         {
             _SFXSourceList[0].clip = _SFXClipList[2];
             _currentSpeed = runSpeed;
             _isSprinting = true;
         }
-        else if (Input.GetKeyUp(KeyCode.LeftShift) || !_canSprint)
+        else if ((Input.GetKeyUp(KeyCode.LeftShift) || !_canSprint || !_isWalking) && !_isCrouched)
         {
             _SFXSourceList[0].clip = _SFXClipList[0];
             _currentSpeed = speed;
@@ -196,6 +202,13 @@ public class PlayerMovement : MonoBehaviour
             _isCrouched = true;
             _currentSpeed = crouchSpeed;
             _SFXSourceList[0].clip = _SFXClipList[1];
+
+            if (_isWalking)
+            {
+                _SFXSourceList[0].Stop();
+                _SFXSourceList[0].Play();
+            }
+
             _SFXSourceList[2].PlayOneShot(_SFXClipList[5]);
         }
         else if (_isCrouched && _canUncrouch && Input.GetKeyDown(KeyCode.LeftControl))
@@ -204,6 +217,12 @@ public class PlayerMovement : MonoBehaviour
             _isCrouched = false;
             _currentSpeed = speed;
             _SFXSourceList[0].clip = _SFXClipList[0];
+            if (_isWalking)
+            {
+                _SFXSourceList[0].Stop();
+                _SFXSourceList[0].Play();
+            }
+
             _SFXSourceList[2].PlayOneShot(_SFXClipList[6]);
         }
     }

@@ -6,8 +6,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public float currentHealth;
 
     private PlayerMovement _pMovement;
-    
-    [SerializeField] private AudioSource _deathAudioSource;
+
+    [SerializeField] private AudioSource _damageAudioSource;
+    [SerializeField] private AudioClip[] _damageAudioClips;
 
 
     private void Awake()
@@ -15,10 +16,18 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         _pMovement = GetComponent<PlayerMovement>();
     }
 
+    private void Start()
+    {
+        currentHealth = maxHealth;
+        UIManger.instance.UpdateHealth(currentHealth, maxHealth);
+    }
+
 
     public void takeDamage(float damage)
     {
         currentHealth -= damage;
+        _damageAudioSource.PlayOneShot(_damageAudioClips[0]);
+
 
         if (currentHealth > maxHealth)
         {
@@ -27,8 +36,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         if (currentHealth <= 0)
         {
+            onDeath();
             currentHealth = 0;
         }
+
+        UIManger.instance.UpdateHealth(currentHealth, maxHealth);
     }
 
     public void onDeath()
@@ -36,7 +48,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (_pMovement != null)
         {
             _pMovement.canMove = false;
-            _deathAudioSource.Play();
+            _damageAudioSource.PlayOneShot(_damageAudioClips[1]);
         }
     }
 

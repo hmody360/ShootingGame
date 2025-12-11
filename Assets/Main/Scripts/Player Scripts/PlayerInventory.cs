@@ -5,15 +5,45 @@ using System.Collections.Generic;
 public class PlayerInventory : MonoBehaviour
 {
     [SerializeField] private List<itemData> itemlist = new List<itemData>();
+    [SerializeField] private AudioSource _inventoryAudioSource;
+    [SerializeField] private AudioClip[] _inventoryAudioClips;
+    private bool isOpen = false;
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            UIManger.instance.ToggleCollectibles();
+
+            if (isOpen)
+            {
+                _inventoryAudioSource.PlayOneShot(_inventoryAudioClips[0]);
+            }
+            else
+            {
+                _inventoryAudioSource.PlayOneShot(_inventoryAudioClips[1]);
+            }
+
+            isOpen = isOpen ? false : true;
+        }
+
+        
+    }
+
+
 
     public void Additem(itemData item)
     {
         itemlist.Add(item);
+        UIManger.instance.AddCollectible(item.icon);
     }
 
     public void removeItem(int ID)
     {
-        itemlist.Remove(itemlist.Find(item => item.itemID == ID));
+        itemData itemToRemove = itemlist.Find(item => item.itemID == ID);
+        itemlist.Remove(itemToRemove);
+        UIManger.instance.RemoveCollectible(itemToRemove.icon);
     }
 
     public List<itemData> getInventoryList()

@@ -25,6 +25,7 @@ public class VentOpen : MonoBehaviour, Iinteractable
         {
             if(_pInventory.getInventoryList().Find(tool => tool.itemID == 1))
             {
+                _pInventory.removeItem(1);
                 _ventAudioSource.PlayOneShot(_ventAudioList[1]);
                 Destroy(gameObject, 3f);
             }
