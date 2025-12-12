@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class RayGun : MonoBehaviour, Iinteractable
@@ -14,6 +15,7 @@ public class RayGun : MonoBehaviour, Iinteractable
     private BoxCollider _weaponCollider;
     private Transform _weaponSlot;
     private AudioSource _weaponAudioSource;
+    private bool _firsteqipped = false;
 
     [SerializeField] private AudioClip[] _weaponSounds;
     [SerializeField] private float _fireTimer;
@@ -32,6 +34,7 @@ public class RayGun : MonoBehaviour, Iinteractable
     {
         _weaponSlot = GameObject.FindGameObjectWithTag("WeaponSlot").transform;
         _cameraTransform = Camera.main.transform;
+        UIManger.instance.UpdateAmmo(currentAmmo, maxAmmo);
     }
 
     private void Update()
@@ -53,8 +56,15 @@ public class RayGun : MonoBehaviour, Iinteractable
                 _weaponRB.isKinematic = true;
                 _weaponCollider.enabled = false;
                 _weaponAudioSource.PlayOneShot(_weaponSounds[0]);
-
+                UIManger.instance.ToggleWeaponHUD();
                 isEqipped = true;
+
+                if (!_firsteqipped)
+                {
+                    UIManger.instance.objectiveList.Find(obj => obj.id == 2).isActive = false;
+                    UIManger.instance.updateObjectiveList();
+                    _firsteqipped = true;
+                }
             }
         }
     }
@@ -67,6 +77,7 @@ public class RayGun : MonoBehaviour, Iinteractable
             _weaponRB.isKinematic = false;
             _weaponCollider.enabled = true;
             _weaponAudioSource.PlayOneShot(_weaponSounds[1]);
+            UIManger.instance.ToggleWeaponHUD();
 
             isEqipped = false;
         }
@@ -88,7 +99,7 @@ public class RayGun : MonoBehaviour, Iinteractable
 
                 Rigidbody shotRB = Shot.GetComponent<Rigidbody>();
                 shotRB.linearVelocity = _cameraTransform.forward * shootForce;
-
+                UIManger.instance.UpdateAmmo(currentAmmo, maxAmmo);
             }
             else
             {
@@ -104,9 +115,11 @@ public class RayGun : MonoBehaviour, Iinteractable
     {
         currentAmmo += noOfAmmo;
 
-        if(currentAmmo > maxAmmo)
+        if (currentAmmo > maxAmmo)
         {
             currentAmmo = maxAmmo;
         }
+
+        UIManger.instance.UpdateAmmo(currentAmmo, maxAmmo);
     }
 }

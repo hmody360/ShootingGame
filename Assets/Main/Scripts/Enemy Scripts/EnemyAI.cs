@@ -34,6 +34,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
     [SerializeField] float Timer = 0f;
     //Animator
     private Animator _alienAnimator;
+    private Rigidbody _alienRB;
 
     bool isChasing = false;
    
@@ -42,10 +43,11 @@ public class EnemyAI : MonoBehaviour, IDamageable
     private void Awake()
     {
         _alienAnimator = GetComponent<Animator>();
+        _alienRB = GetComponent<Rigidbody>();
     }
     void Start()
     {
-        
+        _alienRB.freezeRotation = true;
         player = GameObject.FindGameObjectWithTag("Player").transform;
 
         // Enemy starts patrolling towards point A
@@ -132,7 +134,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
             Patrol();// run patrol behavior
         }
         //attack player
-        if (distToPlayer <= attackRange && Timer >= attackCooldown)
+        if (distToPlayer <= attackRange && Timer >= attackCooldown && isChasing)
         {
             _alienAnimator.SetTrigger("HitTrigger");
             player.GetComponent<IDamageable>().takeDamage(attackDamage);

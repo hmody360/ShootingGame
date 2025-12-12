@@ -5,19 +5,9 @@ public class escapeitem : MonoBehaviour, Iinteractable
     
     public itemData itemData;
 
-    private AudioSource _audioSource;
-    private Collider _collider;
-    private Renderer _renderer;
-
     [SerializeField] private GameObject Player;
+    [SerializeField] private int objectiveID;
     [SerializeField] private bool destroyOnInteract = true; //to destroy the oxygen tank and teddy NOT the ID drawer
-
-    private void Awake()
-    {
-        _audioSource = GetComponent<AudioSource>();
-        _collider = GetComponent<Collider>();
-        _renderer = GetComponent<Renderer>();
-    }
 
     private void Start()
     {
@@ -30,10 +20,14 @@ public class escapeitem : MonoBehaviour, Iinteractable
             Player.GetComponent<PlayerInventory>().Additem(itemData);
             if (destroyOnInteract)  //-for destroying the picked up items not the ID drawer
             {
-                _audioSource.Play();
-                _collider.enabled = false;
-                _renderer.enabled = false;
-                Destroy(gameObject, 3f);
+
+                if(objectiveID != 0)
+                {
+                    UIManger.instance.objectiveList.Find(obj => obj.id == objectiveID).isActive = false;
+                    UIManger.instance.updateObjectiveList();
+                }
+
+                Destroy(gameObject);
             }
         }
     }

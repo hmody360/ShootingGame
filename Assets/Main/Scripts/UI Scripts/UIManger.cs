@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
+using System.Collections.Generic;
 
 
 public class UIManger : MonoBehaviour
@@ -23,10 +25,12 @@ public class UIManger : MonoBehaviour
 
     [Header("Objective")]
     public Image[] collectibleSlots;
+    public List<ObjectiveData> objectiveList;
+    public TextMeshProUGUI objectiveListText;
 
     [Header("Ammo UI")]
-    public Text currentAmmoUI;
-    public Text maxAmmoUI;
+    public TextMeshProUGUI currentAmmoUI;
+    public TextMeshProUGUI maxAmmoUI;
 
     //Damage Screen
     [Header("UI Damege")]
@@ -52,12 +56,29 @@ public class UIManger : MonoBehaviour
     //bool lowHpSoundPlayed = false;
     Coroutine damageRoutine;
 
+    public static UIManger instance;
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            // Otherwise, set this instance as the singleton instance
+            instance = this;
+        }
+    }
+
 
     void Start()
     {
         HUD.SetActive(true);
         hudBase.SetActive(true);
-        hudWeapon.SetActive(true);
+        hudWeapon.SetActive(false);
+        initializeObjectiveList();
+        updateObjectiveList();
     }
 
     //UI UPDATE METHODS
@@ -126,7 +147,7 @@ public class UIManger : MonoBehaviour
     }
 
 
-    //Collect Items
+    //Collect and use Items
     public void AddCollectible(Sprite itemIcon)
     {
         for (int i = 0; i < collectibleSlots.Length; i++)
@@ -134,10 +155,23 @@ public class UIManger : MonoBehaviour
             if (collectibleSlots[i].sprite == null)
             {
                 collectibleSlots[i].sprite = itemIcon;
+                collectibleSlots[i].color = Color.white;
                 return;
             }
         }
+    }
 
+    public void RemoveCollectible(Sprite itemIcon)
+    {
+        for (int i = 0; i < collectibleSlots.Length; i++)
+        {
+            if (collectibleSlots[i].sprite == itemIcon)
+            {
+                collectibleSlots[i].sprite = null;
+                collectibleSlots[i].color = Color.clear;
+                return;
+            }
+        }
     }
 
     // damege Screen
@@ -145,10 +179,38 @@ public class UIManger : MonoBehaviour
     public void ShowDamage(float currentHP, float maxHP)
     {
         UpdateHealth(currentHP, maxHP);
-       //  hpPercent = currentHP / maxHP;
+        //  hpPercent = currentHP / maxHP;
         if (damageRoutine != null) StopCoroutine(damageRoutine);
 
         damageRoutine = StartCoroutine(DamageEffect());
+    }
+
+    public void updateObjectiveList()
+    {
+        objectiveListText.text = "";
+        foreach (ObjectiveData objective in objectiveList)
+        {
+            if (objective.isActive)
+            {
+                objectiveListText.text += objective.objectiveText + "\n";
+            }
+        }
+    }
+
+    public void initializeObjectiveList()
+    {
+        foreach (ObjectiveData objective in objectiveList)
+        {
+            if (objective.id == 1)
+            {
+                objective.isActive = true;
+            }
+            else
+            {
+                objective.isActive = false;
+            }
+
+        }
     }
 
     IEnumerator DamageEffect()
