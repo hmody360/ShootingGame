@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class RayGun : MonoBehaviour, Iinteractable
@@ -14,6 +15,7 @@ public class RayGun : MonoBehaviour, Iinteractable
     private BoxCollider _weaponCollider;
     private Transform _weaponSlot;
     private AudioSource _weaponAudioSource;
+    private bool _firsteqipped = false;
 
     [SerializeField] private AudioClip[] _weaponSounds;
     [SerializeField] private float _fireTimer;
@@ -55,8 +57,14 @@ public class RayGun : MonoBehaviour, Iinteractable
                 _weaponCollider.enabled = false;
                 _weaponAudioSource.PlayOneShot(_weaponSounds[0]);
                 UIManger.instance.ToggleWeaponHUD();
-
                 isEqipped = true;
+
+                if (!_firsteqipped)
+                {
+                    UIManger.instance.objectiveList.Find(obj => obj.id == 2).isActive = false;
+                    UIManger.instance.updateObjectiveList();
+                    _firsteqipped = true;
+                }
             }
         }
     }

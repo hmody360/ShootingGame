@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
+using System.Collections.Generic;
 
 
 public class UIManger : MonoBehaviour
@@ -24,6 +25,8 @@ public class UIManger : MonoBehaviour
 
     [Header("Objective")]
     public Image[] collectibleSlots;
+    public List<ObjectiveData> objectiveList;
+    public TextMeshProUGUI objectiveListText;
 
     [Header("Ammo UI")]
     public TextMeshProUGUI currentAmmoUI;
@@ -74,6 +77,8 @@ public class UIManger : MonoBehaviour
         HUD.SetActive(true);
         hudBase.SetActive(true);
         hudWeapon.SetActive(false);
+        initializeObjectiveList();
+        updateObjectiveList();
     }
 
     //UI UPDATE METHODS
@@ -174,10 +179,38 @@ public class UIManger : MonoBehaviour
     public void ShowDamage(float currentHP, float maxHP)
     {
         UpdateHealth(currentHP, maxHP);
-       //  hpPercent = currentHP / maxHP;
+        //  hpPercent = currentHP / maxHP;
         if (damageRoutine != null) StopCoroutine(damageRoutine);
 
         damageRoutine = StartCoroutine(DamageEffect());
+    }
+
+    public void updateObjectiveList()
+    {
+        objectiveListText.text = "";
+        foreach (ObjectiveData objective in objectiveList)
+        {
+            if (objective.isActive)
+            {
+                objectiveListText.text += objective.objectiveText + "\n";
+            }
+        }
+    }
+
+    public void initializeObjectiveList()
+    {
+        foreach (ObjectiveData objective in objectiveList)
+        {
+            if (objective.id == 1)
+            {
+                objective.isActive = true;
+            }
+            else
+            {
+                objective.isActive = false;
+            }
+
+        }
     }
 
     IEnumerator DamageEffect()

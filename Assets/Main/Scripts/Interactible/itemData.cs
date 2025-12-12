@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewItem", menuName = "BoyAnamoly/Item")]
+[CreateAssetMenu(fileName = "NewItem", menuName = "BoyAnomaly/Item")]
 public class itemData : ScriptableObject
 {
     public int itemID;

@@ -38,6 +38,7 @@ public class PlayerInventory : MonoBehaviour
         itemlist.Add(item);
         _inventoryAudioSource.PlayOneShot(_inventoryAudioClips[2]);
         UIManger.instance.AddCollectible(item.icon);
+        checkFinalMissionTrigger();
     }
 
     public void removeItem(int ID)
@@ -45,6 +46,15 @@ public class PlayerInventory : MonoBehaviour
         itemData itemToRemove = itemlist.Find(item => item.itemID == ID);
         itemlist.Remove(itemToRemove);
         UIManger.instance.RemoveCollectible(itemToRemove.icon);
+    }
+
+    public void checkFinalMissionTrigger()
+    {
+        if(itemlist.Count >= 3)
+        {
+            UIManger.instance.objectiveList.Find(obj => obj.id == 6).isActive = true;
+            UIManger.instance.updateObjectiveList();
+        }
     }
 
     public List<itemData> getInventoryList()

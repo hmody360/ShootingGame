@@ -1231,6 +1231,38 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7567103768967235817, guid: f9a1a5c1a73edba4e8a191866f65123e, type: 3}
   m_PrefabInstance: {fileID: 965400794}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &227563014
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 227563015}
+  m_Layer: 0
+  m_Name: ObjectiveModfiers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &227563015
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 227563014}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.271, y: 0.01001, z: 13.404}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 521617111}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &229523889 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7220986072346222299, guid: 0d9d85399f9310e458b966faa3d36bdb, type: 3}
@@ -3838,6 +3870,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::escapeitem
   itemData: {fileID: 0}
   Player: {fileID: 0}
+  objectiveID: 0
   destroyOnInteract: 0
 --- !u!114 &494528426
 MonoBehaviour:
@@ -4307,6 +4340,74 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &521617110
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 521617111}
+  - component: {fileID: 521617112}
+  - component: {fileID: 521617113}
+  m_Layer: 0
+  m_Name: ObjectiveModfier
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &521617111
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 521617110}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 227563015}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &521617112
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 521617110}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2.1973176, z: 2.4485846}
+  m_Center: {x: 0, y: 0.59865904, z: 0.3631835}
+--- !u!114 &521617113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 521617110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a968d4f1143e8b449ef7adb8a724d77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectiveModfier
+  CloseObjectives: 01000000
+  OpenObjectives: 02000000030000000400000005000000
 --- !u!4 &523250416
 Transform:
   m_ObjectHideFlags: 0
@@ -7909,7 +8010,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1129755007524732272, guid: aa97db4c8da93d24db77ec6563e7fbac, type: 3}
       propertyPath: m_Name
-      value: Hallway-OfficeDoor (1)
+      value: Escape Room
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129755007524732272, guid: aa97db4c8da93d24db77ec6563e7fbac, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8379724206489759507, guid: aa97db4c8da93d24db77ec6563e7fbac, type: 3}
       propertyPath: m_LocalPosition.x
@@ -21654,6 +21759,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 445952, guid: 20373c6cd77ef3840af30d9c058fbee7, type: 3}
   m_PrefabInstance: {fileID: 1885438257}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1954047528 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1784633181043659043, guid: 7fd2e611e36abe045aa954c1277915c0, type: 3}
+  m_PrefabInstance: {fileID: 708390274}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &1961400040
 GameObject:
   m_ObjectHideFlags: 0
@@ -61505,6 +61621,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::escapeitem
   itemData: {fileID: 11400000, guid: f062e5f6e0660be42b4b1d53c120e85d, type: 2}
   Player: {fileID: 0}
+  objectiveID: 5
   destroyOnInteract: 1
 --- !u!64 &3780071832756553886
 MeshCollider:
@@ -96561,9 +96678,41 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1521079872}
     - target: {fileID: 1940977989605508323, guid: b1d8744d095fd934484158716887d50e, type: 3}
+      propertyPath: objectiveListText
+      value: 
+      objectReference: {fileID: 1954047528}
+    - target: {fileID: 1940977989605508323, guid: b1d8744d095fd934484158716887d50e, type: 3}
+      propertyPath: objectiveList.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1940977989605508323, guid: b1d8744d095fd934484158716887d50e, type: 3}
       propertyPath: collectibleSlots.Array.size
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1940977989605508323, guid: b1d8744d095fd934484158716887d50e, type: 3}
+      propertyPath: 'objectiveList.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 016f393c37382124c8a5c4b93577ed03, type: 2}
+    - target: {fileID: 1940977989605508323, guid: b1d8744d095fd934484158716887d50e, type: 3}
+      propertyPath: 'objectiveList.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: c78341930d26a6645ad1f58c07574742, type: 2}
+    - target: {fileID: 1940977989605508323, guid: b1d8744d095fd934484158716887d50e, type: 3}
+      propertyPath: 'objectiveList.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: fa3758cdd2be5084c935660398a97ed1, type: 2}
+    - target: {fileID: 1940977989605508323, guid: b1d8744d095fd934484158716887d50e, type: 3}
+      propertyPath: 'objectiveList.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 172354b0deecb424fa3995e8e0b29a1d, type: 2}
+    - target: {fileID: 1940977989605508323, guid: b1d8744d095fd934484158716887d50e, type: 3}
+      propertyPath: 'objectiveList.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f585158532f3dd6429a339f70fa44773, type: 2}
+    - target: {fileID: 1940977989605508323, guid: b1d8744d095fd934484158716887d50e, type: 3}
+      propertyPath: 'objectiveList.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4bfedef37f243b14fa9c9384758cdb64, type: 2}
     - target: {fileID: 1940977989605508323, guid: b1d8744d095fd934484158716887d50e, type: 3}
       propertyPath: 'collectibleSlots.Array.data[0]'
       value: 
@@ -101950,6 +102099,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::escapeitem
   itemData: {fileID: 11400000, guid: a1c00385de5b87c4389162ad14a3f9b6, type: 2}
   Player: {fileID: 0}
+  objectiveID: 3
   destroyOnInteract: 1
 --- !u!65 &8032344235516300454
 BoxCollider:
@@ -112105,6 +112255,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::escapeitem
   itemData: {fileID: 11400000, guid: e5d1cd49eeca2744692d14648aab422c, type: 2}
   Player: {fileID: 0}
+  objectiveID: 4
   destroyOnInteract: 1
 --- !u!64 &8647012528566858290
 MeshCollider:
@@ -117032,6 +117183,7 @@ SceneRoots:
   - {fileID: 1733145312}
   - {fileID: 665549454}
   - {fileID: 1055777084}
+  - {fileID: 227563015}
   - {fileID: 259815796}
   - {fileID: 940341838}
   - {fileID: 1487301522}
