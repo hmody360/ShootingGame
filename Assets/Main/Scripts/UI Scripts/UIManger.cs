@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 
 public class UIManger : MonoBehaviour
@@ -21,6 +22,7 @@ public class UIManger : MonoBehaviour
     public GameObject collectiblesPanel;
     public GameObject LosePanel;
     public GameObject winPanel;
+    public GameObject trueEndPanel;
 
 
     [Header("Objective")]
@@ -34,7 +36,7 @@ public class UIManger : MonoBehaviour
 
     //Damage Screen
     [Header("UI Damege")]
-    public Image damageOverlay;
+    public GameObject damageOverlay;
     public Image heartIcon;
     public Image healthBarFill;
 
@@ -43,8 +45,8 @@ public class UIManger : MonoBehaviour
     public Color damageColor;
 
     [Header("Timings")]
-    public float effectDuration = 0.6f;
-    public float lowHealthThreshold = 0.25f;
+    public float effectDuration = 10f;
+    public AudioSource lowHPSoundSource;
 
     [Header("Crosshair Sprites")]
     public Image crosshairUI;
@@ -69,6 +71,8 @@ public class UIManger : MonoBehaviour
             // Otherwise, set this instance as the singleton instance
             instance = this;
         }
+
+        lowHPSoundSource = GetComponent<AudioSource>();
     }
 
 
@@ -79,6 +83,9 @@ public class UIManger : MonoBehaviour
         hudWeapon.SetActive(false);
         initializeObjectiveList();
         updateObjectiveList();
+
+        float SavedVolume = PlayerPrefs.GetFloat("MasterVolume", 1f);
+        AudioListener.volume = SavedVolume;
     }
 
     //UI UPDATE METHODS
@@ -99,6 +106,11 @@ public class UIManger : MonoBehaviour
     public void UpdateHealth(float currentHealth, float maxHealth)
     {
         StartCoroutine(SmoothBar(HealthFill, currentHealth / maxHealth));
+
+        if ((currentHealth / maxHealth) <= 0.25)
+        {
+            ShowDamage();
+        }
     }
 
 
@@ -139,11 +151,22 @@ public class UIManger : MonoBehaviour
     {
         HUD.SetActive(false);
         LosePanel.SetActive(true);
+        Cursor.lockState = CursorLockMode.Confined;
+    }
+
+    public void ReloadCurrentScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ExitGame()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
     public void winScreen()
     {
         HUD.SetActive(false);
-        winPanel.SetActive(true);
+        StartCoroutine(WinThenLose());
     }
 
 
@@ -176,10 +199,8 @@ public class UIManger : MonoBehaviour
 
     // damege Screen
 
-    public void ShowDamage(float currentHP, float maxHP)
+    public void ShowDamage()
     {
-        UpdateHealth(currentHP, maxHP);
-        //  hpPercent = currentHP / maxHP;
         if (damageRoutine != null) StopCoroutine(damageRoutine);
 
         damageRoutine = StartCoroutine(DamageEffect());
@@ -216,34 +237,34 @@ public class UIManger : MonoBehaviour
     IEnumerator DamageEffect()
     {
         //Show damage screen
-        damageOverlay.enabled = true;
-        heartIcon.color = damageColor;
+        damageOverlay.SetActive(true);
         healthBarFill.color = damageColor;
 
-        ////If health is low -> play warning sound once
-        //if (hpPercent <= lowHealthThreshold)
-        //{
-        //    if (!lowHpSoundPlayed && lowHpWarningSound != null)
-        //    {
-        //        lowHpWarningSound.Play();
-        //        //prevent sound from repeating
-        //        lowHpSoundPlayed = true;
-        //    }
-        //}
-        //else
-        //{
-        //    lowHpSoundPlayed = false; // reset 
-        //}
+        //If health is low -> play warning sound once
+        lowHPSoundSource.Play();
 
         //Wait before fading UI back to normal
         yield return new WaitForSeconds(effectDuration);
 
         //Reset UI effects back to default state
-        damageOverlay.enabled = false;
-        heartIcon.color = normalColor;
+        damageOverlay.SetActive(false);
         healthBarFill.color = normalColor;
+
+        lowHPSoundSource.Stop();
 
 
     }
+
+    IEnumerator WinThenLose()
+    {
+        winPanel.SetActive(true);
+        trueEndPanel.SetActive(false);
+        yield return new WaitForSeconds(8f);
+
+        winPanel.SetActive(false);
+        trueEndPanel.SetActive(true);
+    }
+
+
 
 }//end class
