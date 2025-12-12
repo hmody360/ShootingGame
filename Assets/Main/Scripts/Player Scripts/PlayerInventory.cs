@@ -36,6 +36,7 @@ public class PlayerInventory : MonoBehaviour
     public void Additem(itemData item)
     {
         itemlist.Add(item);
+        _inventoryAudioSource.PlayOneShot(_inventoryAudioClips[2]);
         UIManger.instance.AddCollectible(item.icon);
     }
 
