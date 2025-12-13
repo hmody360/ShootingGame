@@ -562,6 +562,8 @@ MonoBehaviour:
   _damageAudioClips:
   - {fileID: 8300000, guid: 7aaa30738e6162a4e8a1dc14f5710a32, type: 3}
   - {fileID: 8300000, guid: 37884b63fb65b444a8b62be71b105119, type: 3}
+  - {fileID: 8300000, guid: e0c81ee7f5881ed489c1db9e035c6f16, type: 3}
+  _FirstPersonCamera: {fileID: 0}
 --- !u!114 &3498758722464363850
 MonoBehaviour:
   m_ObjectHideFlags: 0

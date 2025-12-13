@@ -30,16 +30,22 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         currentHealth -= damage;
         _damageAudioSource.PlayOneShot(_damageAudioClips[0]);
 
-
-        if (currentHealth > maxHealth)
-        {
-            currentHealth = maxHealth;
-        }
-
         if (currentHealth <= 0)
         {
             onDeath();
             currentHealth = 0;
+        }
+
+        UIManger.instance.UpdateHealth(currentHealth, maxHealth);
+    }
+
+    public void heal(float healAmount)
+    {
+        currentHealth += healAmount;
+        _damageAudioSource.PlayOneShot(_damageAudioClips[2]);
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
         }
 
         UIManger.instance.UpdateHealth(currentHealth, maxHealth);
