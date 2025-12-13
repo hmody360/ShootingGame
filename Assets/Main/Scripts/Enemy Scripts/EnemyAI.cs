@@ -141,7 +141,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
             Timer = 0;
         }
 
-            //Animator valued updating
+            //Animator values updating
             _alienAnimator.SetBool("isStopped", agent.isStopped);
         _alienAnimator.SetBool("isChasing", isChasing);
     }

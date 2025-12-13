@@ -128,6 +128,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AmmoBox
   ammoAmount: 5
+  _ammoBoxClips:
+  - {fileID: 8300000, guid: 4f48dad0ea9808c4e8df3220ffb6aedc, type: 3}
+  - {fileID: 8300000, guid: adfa9087556f30e4bab154a46137bb6a, type: 3}
 --- !u!82 &6509703288117826321
 AudioSource:
   m_ObjectHideFlags: 0
@@ -137,7 +140,7 @@ AudioSource:
   m_GameObject: {fileID: 2025843373120735955}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -7589356701352747582, guid: 0002c4570c0cf3f45ae78a0c63eb26ed, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: adfa9087556f30e4bab154a46137bb6a, type: 3}
   m_PlayOnAwake: 0

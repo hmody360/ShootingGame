@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3817773036384148385}
   - component: {fileID: 1165221665601983039}
   m_Layer: 0
-  m_Name: Door
+  m_Name: door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,7 +106,7 @@ AudioSource:
   m_GameObject: {fileID: 1129755007524732272}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -7589356701352747582, guid: 0002c4570c0cf3f45ae78a0c63eb26ed, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: e64363631e5ba154a8a50e2879635380, type: 3}
   m_PlayOnAwake: 0
@@ -154,7 +154,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

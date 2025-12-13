@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
@@ -9,6 +10,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     [SerializeField] private AudioSource _damageAudioSource;
     [SerializeField] private AudioClip[] _damageAudioClips;
+    [SerializeField] private GameObject _FirstPersonCamera;
 
 
     private void Awake()
@@ -28,16 +30,22 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         currentHealth -= damage;
         _damageAudioSource.PlayOneShot(_damageAudioClips[0]);
 
-
-        if (currentHealth > maxHealth)
-        {
-            currentHealth = maxHealth;
-        }
-
         if (currentHealth <= 0)
         {
             onDeath();
             currentHealth = 0;
+        }
+
+        UIManger.instance.UpdateHealth(currentHealth, maxHealth);
+    }
+
+    public void heal(float healAmount)
+    {
+        currentHealth += healAmount;
+        _damageAudioSource.PlayOneShot(_damageAudioClips[2]);
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
         }
 
         UIManger.instance.UpdateHealth(currentHealth, maxHealth);
@@ -49,6 +57,19 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         {
             _pMovement.canMove = false;
             _damageAudioSource.PlayOneShot(_damageAudioClips[1]);
+            destroyAllEnemies();
+            _FirstPersonCamera.SetActive(false);
+            UIManger.instance.LoseScreen();
+        }
+    }
+
+    public void destroyAllEnemies()
+    {
+        GameObject[] enemiesList = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach(GameObject enemy in enemiesList)
+        {
+            Destroy(enemy);
         }
     }
 

@@ -6,11 +6,12 @@ public class AmmoBox : MonoBehaviour, Iinteractable
     public int ammoAmount;
 
     private RayGun _weapon;
-    private AudioSource _reloadSound;
+    private AudioSource _reloadSoundSource;
+    [SerializeField] private AudioClip[] _ammoBoxClips;
 
     private void Awake()
     {
-        _reloadSound = GetComponent<AudioSource>();
+        _reloadSoundSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -25,13 +26,14 @@ public class AmmoBox : MonoBehaviour, Iinteractable
             if (_weapon.isEqipped && _weapon.currentAmmo < _weapon.maxAmmo)
             {
                 _weapon.reloadRayGun(ammoAmount);
-                _reloadSound.Play();
+                _reloadSoundSource.PlayOneShot(_ammoBoxClips[1]);
                 GetComponent<MeshRenderer>().enabled = false;
                 GetComponent<MeshCollider>().enabled = false;
                 Destroy(gameObject,0.5f);
             }
             else
             {
+                _reloadSoundSource.PlayOneShot(_ammoBoxClips[0]);
                 Debug.Log("Your Weapon is not eqipped or you have max ammo");
             }
         }
