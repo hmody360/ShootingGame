@@ -4,6 +4,7 @@ using System.Collections;
 using TMPro;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using Unity.Cinemachine;
 
 
 public class UIManger : MonoBehaviour
@@ -20,6 +21,7 @@ public class UIManger : MonoBehaviour
 
     [Header("Panels")]
     public GameObject collectiblesPanel;
+    public GameObject DrawerMiniGamePanel;
     public GameObject LosePanel;
     public GameObject winPanel;
     public GameObject trueEndPanel;
@@ -52,8 +54,8 @@ public class UIManger : MonoBehaviour
     public Image crosshairUI;
     public Sprite normalCrosshair;
     public Sprite weaponCrosshair;
-    //[Header("Sound")]
-    //public AudioSource lowHpWarningSound;
+    [Header("Camera")]
+    public GameObject _FPCamera;
 
     //bool lowHpSoundPlayed = false;
     Coroutine damageRoutine;
@@ -151,6 +153,7 @@ public class UIManger : MonoBehaviour
     {
         HUD.SetActive(false);
         LosePanel.SetActive(true);
+        CloseDrawerGameAfterLoss();
         Cursor.lockState = CursorLockMode.Confined;
     }
 
@@ -238,6 +241,33 @@ public class UIManger : MonoBehaviour
             }
 
         }
+    }
+
+    public void StartDrawerMinigame()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+        DrawerMiniGamePanel.SetActive(true);
+        _FPCamera.SetActive(false);
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().canMove = false;
+        Camera.main.gameObject.GetComponent<RayInetractor>().enabled = false;
+    }
+
+    public void CloseDrawerMiniGame()
+    {
+        DrawerMiniGamePanel.SetActive(false);
+        GameObject.FindGameObjectWithTag("IDDrawer").GetComponent<IDDrawerActivator>().CloseGame();
+        Cursor.lockState = CursorLockMode.Locked;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().canMove = true;
+        _FPCamera.SetActive(true);
+        Camera.main.gameObject.GetComponent<RayInetractor>().enabled = true;
+    }
+
+    private void CloseDrawerGameAfterLoss()
+    {
+        DrawerMiniGamePanel.SetActive(false);
+        GameObject.FindGameObjectWithTag("IDDrawer").GetComponent<IDDrawerActivator>().CloseGame();
+        _FPCamera.SetActive(false);
+        Camera.main.gameObject.GetComponent<RayInetractor>().enabled = false;
     }
 
     IEnumerator DamageEffect()
