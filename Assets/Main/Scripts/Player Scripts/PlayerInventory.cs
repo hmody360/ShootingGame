@@ -12,7 +12,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E)) //Open/Close Inventory UI and play the respective sound
         {
             UIManger.instance.ToggleCollectibles();
 
@@ -33,7 +33,7 @@ public class PlayerInventory : MonoBehaviour
 
 
 
-    public void Additem(itemData item)
+    public void Additem(itemData item) //Add item to the inventory and update UI
     {
         itemlist.Add(item);
         _inventoryAudioSource.PlayOneShot(_inventoryAudioClips[2]);
@@ -41,14 +41,14 @@ public class PlayerInventory : MonoBehaviour
         checkFinalMissionTrigger();
     }
 
-    public void removeItem(int ID)
+    public void removeItem(int ID) //Remove item from the inventory and update UI
     {
         itemData itemToRemove = itemlist.Find(item => item.itemID == ID);
         itemlist.Remove(itemToRemove);
         UIManger.instance.RemoveCollectible(itemToRemove.icon);
     }
 
-    public void checkFinalMissionTrigger()
+    public void checkFinalMissionTrigger() //Check if all 3 Main Collectibles have been collected to activate the Final Mission
     {
         if(itemlist.Count >= 3)
         {
@@ -57,7 +57,7 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
-    public List<itemData> getInventoryList()
+    public List<itemData> getInventoryList() // return the inventory.
     {
         return itemlist;
     }

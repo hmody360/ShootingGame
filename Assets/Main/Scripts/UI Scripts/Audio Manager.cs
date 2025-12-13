@@ -26,7 +26,7 @@ public class AudioManager : MonoBehaviour
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Start() //Get the previously set Sound Options and apply them to the respective Audio Group.
     {
         float MusicVol = PlayerPrefs.GetFloat("MusicVol", 1f);
         float SFXVol = PlayerPrefs.GetFloat("SFXVol", 1f);
@@ -51,13 +51,13 @@ public class AudioManager : MonoBehaviour
 
     }
 
-    public void setMusicVolume(float volume)
+    public void setMusicVolume(float volume) //Set volume of Music in game.
     {
         audioMixer.SetFloat("MusicVolume", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("MusicVol", volume);
     }
 
-    public void setSFXVolume(float volume)
+    public void setSFXVolume(float volume) //Set volume of SFX in game.
     {
         audioMixer.SetFloat("SFXVolume", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("SFXVol", volume);

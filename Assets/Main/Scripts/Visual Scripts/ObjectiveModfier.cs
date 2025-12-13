@@ -6,7 +6,7 @@ public class ObjectiveModfier : MonoBehaviour
     public int[] CloseObjectives;
     public int[] OpenObjectives;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) //This code is used to trigger objective opening and closing on player entery then destroy itself
     {
         if (other.CompareTag("Player"))
         {

@@ -14,7 +14,7 @@ public class HealthVial : MonoBehaviour, Iinteractable
 
     public void interact()
     {
-        int healOrDamage = Random.Range(0, 2);
+        int healOrDamage = Random.Range(0, 2); //Randomly select between healing or damaging the player 50/50 %
 
         if (healOrDamage == 0)
         {

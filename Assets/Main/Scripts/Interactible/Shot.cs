@@ -9,7 +9,7 @@ public class Shot : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.collider.CompareTag("Enemy"))
+        if (other.collider.CompareTag("Enemy")) //if the shot hits the enemy, damage it and make special VFX to que the player that the enemy was damaged, then destroy self, if anything else is hit, just destroy self.
         {
             IDamageable enemyHealth = other.gameObject.GetComponent<IDamageable>();
 

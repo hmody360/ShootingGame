@@ -17,14 +17,14 @@ public class IDDrawerActivator : MonoBehaviour, Iinteractable
         _DrawerAudio = GetComponent<AudioSource>();
     }
 
-    public void interact()
+    public void interact() //On Interact Start the Drawer Minigame, and play its music
     {
         UIManger.instance.StartDrawerMinigame();
         _DrawerAudio.clip = _audioClipList[0];
         _DrawerAudio.Play();
     }
 
-    public void OpenDrawer()
+    public void OpenDrawer() //If the player wins, this opens the drawer, and disables the collider and outline (no longer can open the mini game)
     {
         _drawerAnimator.SetBool("isOpen", true);
         _DrawerAudio.clip = _audioClipList[1];
@@ -33,7 +33,7 @@ public class IDDrawerActivator : MonoBehaviour, Iinteractable
         Destroy(_outline);
     }
 
-    public void CloseGame()
+    public void CloseGame() //If the game is closed stop the mini game's music.
     {
         _DrawerAudio.Stop();
     }

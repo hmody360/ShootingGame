@@ -4,7 +4,7 @@ public class UnCroucher : MonoBehaviour
 {
     public bool Toggle;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) //Disable or Enable Crouching based on player entry.
     {
         if (other.CompareTag("Player"))
         {

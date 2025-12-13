@@ -7,7 +7,6 @@ public class WinActivator : MonoBehaviour, Iinteractable
     private AudioSource _winSequenceAudioSource;
     private Collider _collider;
     [SerializeField] private AudioClip[] _winSequenceAudioClips;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     private void Awake()
     {
@@ -20,7 +19,7 @@ public class WinActivator : MonoBehaviour, Iinteractable
         _player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    public void interact()
+    public void interact() //Activate the win sequence when interacting with the Console
     {
         _player.GetComponent<PlayerMovement>().canMove = false;
         _player.GetComponent<PlayerHealth>().destroyAllEnemies();
@@ -30,7 +29,7 @@ public class WinActivator : MonoBehaviour, Iinteractable
         StartCoroutine(VictoryThenLosePlayer());
     }
 
-    IEnumerator VictoryThenLosePlayer()
+    IEnumerator VictoryThenLosePlayer() //Playe Victory Music, then True End Music
     {
         _winSequenceAudioSource.Stop();
         _winSequenceAudioSource.clip = _winSequenceAudioClips[0];
