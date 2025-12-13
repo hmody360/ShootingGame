@@ -19,6 +19,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
     // Enemy health
     public float maxHealth = 100;
     public float currentHealth;
+    private bool isDead = false;
     // Current patrol target
     Transform currentTarget;
     NavMeshAgent agent;
@@ -71,6 +72,9 @@ public class EnemyAI : MonoBehaviour, IDamageable
     }
     void Update()
     {
+        if (isDead) return;
+
+
         Timer += Time.deltaTime;
         // prevent AI logic from running if agent or player references is missing
         if (agent == null || player == null)
@@ -236,9 +240,13 @@ public class EnemyAI : MonoBehaviour, IDamageable
     }
   public  void onDeath()
     {
-        // remove enemy from the scene
+        if(isDead) return;
+
+        // remove enemy from the scene & stop all actions
         agent.isStopped = true;
+        agent.enabled = false;
         _alienAnimator.SetTrigger("DeathTrigger");
+        isDead = true;
         Destroy(transform.parent.gameObject, 1f);
     }
 
