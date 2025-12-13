@@ -8,6 +8,7 @@ TagManager:
   - WeaponSlot
   - Weapon
   - Enemy
+  - IDDrawer
   layers:
   - Default
   - TransparentFX

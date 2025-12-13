@@ -10,7 +10,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     [SerializeField] private AudioSource _damageAudioSource;
     [SerializeField] private AudioClip[] _damageAudioClips;
-    [SerializeField] private GameObject _FirstPersonCamera;
 
 
     private void Awake()
@@ -58,7 +57,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             _pMovement.canMove = false;
             _damageAudioSource.PlayOneShot(_damageAudioClips[1]);
             destroyAllEnemies();
-            _FirstPersonCamera.SetActive(false);
             UIManger.instance.LoseScreen();
         }
     }
