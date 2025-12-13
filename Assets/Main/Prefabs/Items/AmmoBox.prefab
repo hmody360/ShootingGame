@@ -128,6 +128,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AmmoBox
   ammoAmount: 5
+  _ammoBoxClips:
+  - {fileID: 8300000, guid: 4f48dad0ea9808c4e8df3220ffb6aedc, type: 3}
+  - {fileID: 8300000, guid: adfa9087556f30e4bab154a46137bb6a, type: 3}
 --- !u!82 &6509703288117826321
 AudioSource:
   m_ObjectHideFlags: 0

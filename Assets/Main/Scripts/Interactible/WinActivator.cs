@@ -5,12 +5,14 @@ public class WinActivator : MonoBehaviour, Iinteractable
 {
     private GameObject _player;
     private AudioSource _winSequenceAudioSource;
+    private Collider _collider;
     [SerializeField] private AudioClip[] _winSequenceAudioClips;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     private void Awake()
     {
         _winSequenceAudioSource = GetComponent<AudioSource>();
+        _collider = GetComponent<Collider>();
     }
 
     void Start()
@@ -24,6 +26,7 @@ public class WinActivator : MonoBehaviour, Iinteractable
         _player.GetComponent<PlayerHealth>().destroyAllEnemies();
         Cursor.lockState = CursorLockMode.Confined;
         UIManger.instance.winScreen();
+        _collider.enabled = false;
         StartCoroutine(VictoryThenLosePlayer());
     }
 

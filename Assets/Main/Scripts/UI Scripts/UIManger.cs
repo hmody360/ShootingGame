@@ -23,7 +23,7 @@ public class UIManger : MonoBehaviour
     public GameObject LosePanel;
     public GameObject winPanel;
     public GameObject trueEndPanel;
-
+    public GameObject creditsPanel;
 
     [Header("Objective")]
     public Image[] collectibleSlots;
@@ -169,6 +169,12 @@ public class UIManger : MonoBehaviour
         StartCoroutine(WinThenLose());
     }
 
+    public void CreditsScreen()
+    {
+        trueEndPanel.SetActive(false);
+        creditsPanel.SetActive(true);
+    }
+
 
     //Collect and use Items
     public void AddCollectible(Sprite itemIcon)
@@ -263,6 +269,7 @@ public class UIManger : MonoBehaviour
 
         winPanel.SetActive(false);
         trueEndPanel.SetActive(true);
+        StopCoroutine(WinThenLose());
     }
 
 

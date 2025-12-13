@@ -54,7 +54,7 @@ MonoBehaviour:
   maxAmmo: 30
   currentAmmo: 10
   shootForce: 50
-  fireRate: 0.2
+  fireRate: 1
   isEqipped: 0
   _weaponSounds:
   - {fileID: 8300000, guid: 0eb3a52dc2505db4e8b88ac7a0792f38, type: 3}
