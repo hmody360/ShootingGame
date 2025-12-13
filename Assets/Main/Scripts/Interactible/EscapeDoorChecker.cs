@@ -11,7 +11,7 @@ public class EscapeDoorChecker : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void Update() //Check if the final objective has been activated and make the door openable.
     {
         if(UIManger.instance.objectiveList.Find(obj => obj.id == 6).isActive == true && !_doorTrigger.canOpen)
         {

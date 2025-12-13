@@ -4,7 +4,8 @@ using UnityEngine;
 public class RayGun : MonoBehaviour, Iinteractable
 {
 
-    public GameObject shotPrefab;
+    public GameObject shotPrefab; //Prefab to shoot from gun
+    //RayGun Parameters
     public int maxAmmo = 30;
     public int currentAmmo = 10;
     public float shootForce = 50f;
@@ -32,9 +33,9 @@ public class RayGun : MonoBehaviour, Iinteractable
 
     private void Start()
     {
-        _weaponSlot = GameObject.FindGameObjectWithTag("WeaponSlot").transform;
-        _cameraTransform = Camera.main.transform;
-        UIManger.instance.UpdateAmmo(currentAmmo, maxAmmo);
+        _weaponSlot = GameObject.FindGameObjectWithTag("WeaponSlot").transform; //Get the slot that the weapon is placed in.
+        _cameraTransform = Camera.main.transform; //get the camera to shoot from its center.
+        UIManger.instance.UpdateAmmo(currentAmmo, maxAmmo); //update the ammo in the UI from the begininng.
     }
 
     private void Update()
@@ -46,7 +47,7 @@ public class RayGun : MonoBehaviour, Iinteractable
 
     public void interact()
     {
-        if (!isEqipped)
+        if (!isEqipped) //if the weapon is not equipped, and the weapon slot is not null, equip it
         {
             if (_weaponSlot != null)
             {
@@ -59,7 +60,7 @@ public class RayGun : MonoBehaviour, Iinteractable
                 UIManger.instance.ToggleWeaponHUD();
                 isEqipped = true;
 
-                if (!_firsteqipped)
+                if (!_firsteqipped) //this is to check off the objective once the gun is picked up.
                 {
                     UIManger.instance.objectiveList.Find(obj => obj.id == 2).isActive = false;
                     UIManger.instance.updateObjectiveList();
@@ -69,7 +70,7 @@ public class RayGun : MonoBehaviour, Iinteractable
         }
     }
 
-    private void unEquip()
+    private void unEquip() //if the gun is eqipped, and unEqip button is pressed, drop the gun.
     {
         if (isEqipped && Input.GetKeyDown(KeyCode.Q))
         {
@@ -83,7 +84,7 @@ public class RayGun : MonoBehaviour, Iinteractable
         }
     }
 
-    private void shoot()
+    private void shoot() //Shoot from the center of the camera if there's ammo, play the related sounds and VFX, and update the UI if no ammo, play the no ammo sound.
     {
         if (Input.GetMouseButtonDown(1) && _fireTimer > fireRate && isEqipped)
         {
@@ -111,7 +112,7 @@ public class RayGun : MonoBehaviour, Iinteractable
         }
     }
 
-    public void reloadRayGun(int noOfAmmo)
+    public void reloadRayGun(int noOfAmmo) //This is used by AmmoBoxes to reload the ammo, and updates it in UI
     {
         currentAmmo += noOfAmmo;
 

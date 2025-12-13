@@ -16,15 +16,15 @@ public class RayInetractor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _rayToCast = _camera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+        _rayToCast = _camera.ViewportPointToRay(new Vector3(0.5f, 0.5f)); //Create a RayCast from the center of the camera
 
-        if (Physics.Raycast(_rayToCast, out RaycastHit hit, _maxDistance, _interactible))
+        if (Physics.Raycast(_rayToCast, out RaycastHit hit, _maxDistance, _interactible)) //if the ray cast hits an interactible object display an outline, if the player interacts, do the interaction set for this item
         {
             GameObject currentGameObject = hit.collider.gameObject;
             Outline currentOutlined = currentGameObject.GetComponent<Outline>();
 
 
-            if(currentOutlined != _lastHitOutline)
+            if(currentOutlined != _lastHitOutline) //Disable outlines once not looking at the current item
             {
                 DisableCurrentOutline();
                 _lastHitOutline = currentOutlined;

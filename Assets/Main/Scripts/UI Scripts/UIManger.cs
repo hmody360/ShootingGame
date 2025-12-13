@@ -78,7 +78,7 @@ public class UIManger : MonoBehaviour
     }
 
 
-    void Start()
+    void Start() //set the main UI elements
     {
         HUD.SetActive(true);
         hudBase.SetActive(true);
@@ -304,4 +304,4 @@ public class UIManger : MonoBehaviour
 
 
 
-}//end class
+}

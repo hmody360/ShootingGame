@@ -17,11 +17,11 @@ public class DoorTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if ((other.CompareTag("Player")) && !canOpen)
+        if ((other.CompareTag("Player")) && !canOpen) //if player tries to open the ddor while closed, play Deny sound
         {
             _doorAudioSource.PlayOneShot(_doorClipList[0]);
         }
-        if ((other.CompareTag("Player") || other.CompareTag("Enemy")) && canOpen)
+        if ((other.CompareTag("Player") || other.CompareTag("Enemy")) && canOpen) //if player or enemy is close to the door, and the door can be opened, open the door and make open door sound
         {
             _doorAudioSource.PlayOneShot(_doorClipList[1]);
             Debug.Log("player opened the door");
@@ -29,7 +29,7 @@ public class DoorTrigger : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other) // if player or enemy leaves the vicinity of the door close it and play close door sound
     {
         if ((other.CompareTag("Player") || other.CompareTag("Enemy")) && canOpen)
         {

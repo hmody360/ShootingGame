@@ -17,14 +17,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         _pMovement = GetComponent<PlayerMovement>();
     }
 
-    private void Start()
+    private void Start() // Set Player Health and update UI
     {
         currentHealth = maxHealth;
         UIManger.instance.UpdateHealth(currentHealth, maxHealth);
     }
 
 
-    public void takeDamage(float damage)
+    public void takeDamage(float damage) //Take Damage from Enemy and Bad Health Vials.
     {
         currentHealth -= damage;
         _damageAudioSource.PlayOneShot(_damageAudioClips[0]);
@@ -38,7 +38,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         UIManger.instance.UpdateHealth(currentHealth, maxHealth);
     }
 
-    public void heal(float healAmount)
+    public void heal(float healAmount) //Heal when taking a good Health Vial.
     {
         currentHealth += healAmount;
         _damageAudioSource.PlayOneShot(_damageAudioClips[2]);
@@ -50,7 +50,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         UIManger.instance.UpdateHealth(currentHealth, maxHealth);
     }
 
-    public void onDeath()
+    public void onDeath() //On PLayer's death disable movement of all kind, and show lose screen.
     {
         if (_pMovement != null)
         {
@@ -61,7 +61,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         }
     }
 
-    public void destroyAllEnemies()
+    public void destroyAllEnemies() //Destroy All Enemies, this is used on player's death.
     {
         GameObject[] enemiesList = GameObject.FindGameObjectsWithTag("Enemy");
 

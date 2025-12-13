@@ -23,7 +23,7 @@ public class VentOpen : MonoBehaviour, Iinteractable
     {
         if(_pInventory != null )
         {
-            if(_pInventory.getInventoryList().Find(tool => tool.itemID == 1))
+            if(_pInventory.getInventoryList().Find(tool => tool.itemID == 1)) //if the player has the ScreWDriver Item, play unscrew sound, and destroy the vent, otherwise play vent closed sound.
             {
                 _pInventory.removeItem(1);
                 _ventAudioSource.PlayOneShot(_ventAudioList[1]);

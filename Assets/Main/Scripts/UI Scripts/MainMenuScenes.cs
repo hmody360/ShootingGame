@@ -9,35 +9,32 @@ public class MainMenuScenes : MonoBehaviour
 
     void Start()
     {
-        ShowMainMenu();
-
-        float SavedVolume = PlayerPrefs.GetFloat("MasterVolume", 1f);
-        AudioListener.volume = SavedVolume;
+        ShowMainMenu(); //Show the Main Menu on Start
 
 
     }
 
-    public void ShowMainMenu()
+    public void ShowMainMenu() //Show Main Menu
     {
         mainMenuPage.SetActive(true);
         settingsPage.SetActive(false);
     }
-    public void StartGame()
+    public void StartGame() //Start the game scene
     {
         SceneManager.LoadScene("SpaceshipGameScene");
     }
 
-    public void OpenSettings()
+    public void OpenSettings() //Open Settings Panel
     {
         settingsPage.SetActive(true);
     }
 
-    public void CloseSettings()
+    public void CloseSettings() //Close Settings Panel
     {
         settingsPage.SetActive(false);
     }
 
-    public void ExitGame()
+    public void ExitGame() //Close the game
     {
         Application.Quit();
     }

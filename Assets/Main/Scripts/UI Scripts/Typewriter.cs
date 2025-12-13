@@ -15,7 +15,7 @@ public class TwoLinesAutoWriter : MonoBehaviour
     string originalLine1;
     string originalLine2;
 
-    private void OnEnable()
+    private void OnEnable() //Start the TypeWriter Sequence for the set Texts one by one
     {
         originalLine1 = line1Text.text;  
         originalLine2 = line2Text.text;   
