@@ -17,7 +17,7 @@ public class FloatingItem : MonoBehaviour
     void Update()
     {
         //rotate on y
-        transform.Rotate(0, rotateSpeed * Time.deltaTime,0);
+        transform.Rotate(0,0, rotateSpeed * Time.deltaTime);
 
         //hover
         float newY = startPos.y + Mathf.Sin(Time.time * floatFrequency) * floatAmplitude;

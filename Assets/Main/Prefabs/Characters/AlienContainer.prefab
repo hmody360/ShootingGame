@@ -988,7 +988,7 @@ MonoBehaviour:
   chaseSpeed: 8
   chaseRange: 8
   chaseLoseRange: 15
-  viewAngle: 90
+  viewAngle: 120
   maxHealth: 50
   currentHealth: 0
   WalkSFX: {fileID: 8116146765158622169}
