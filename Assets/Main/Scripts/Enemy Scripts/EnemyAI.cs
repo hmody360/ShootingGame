@@ -227,8 +227,8 @@ public class EnemyAI : MonoBehaviour, IDamageable
                     Quaternion rot = Quaternion.LookRotation(dir);
                     // smoothly rotate towards the target
                     transform.rotation = Quaternion.Slerp(transform.rotation, rot, 10f * Time.deltaTime);
-                }
-            }  
+        }
+    }
     // method to apply damage to the enemy
     public void takeDamage(float damage)
     {
@@ -237,8 +237,13 @@ public class EnemyAI : MonoBehaviour, IDamageable
         {
             onDeath();
         }
+
+        if (!isChasing)
+        {
+            isChasing = true;
+        }
     }
-  public  void onDeath()
+    public void onDeath()
     {
         if(isDead) return;
 
