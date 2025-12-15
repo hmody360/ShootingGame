@@ -997,7 +997,7 @@ MonoBehaviour:
   TalkSFX: {fileID: 6790027171644490906}
   DamageSFX: {fileID: 6044092734990639486}
   attackRange: 3
-  attackDamage: 10
+  attackDamage: 15
   attackCooldown: 3
   Timer: 0
   _damageAudioClips:
