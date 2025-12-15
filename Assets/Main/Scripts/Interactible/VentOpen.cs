@@ -4,6 +4,7 @@ public class VentOpen : MonoBehaviour, Iinteractable
 {
     private PlayerInventory _pInventory;
     private AudioSource _ventAudioSource;
+    public string ActionName => "Open Vent";
 
     [SerializeField] private AudioClip[] _ventAudioList;
 

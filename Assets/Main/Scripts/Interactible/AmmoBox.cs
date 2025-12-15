@@ -8,6 +8,7 @@ public class AmmoBox : MonoBehaviour, Iinteractable
     private RayGun _weapon;
     private AudioSource _reloadSoundSource;
     [SerializeField] private AudioClip[] _ammoBoxClips;
+    public string ActionName => "Reload Weapon";
 
     private void Awake()
     {

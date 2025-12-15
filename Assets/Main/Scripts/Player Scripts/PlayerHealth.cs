@@ -56,7 +56,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         {
             _pMovement.canMove = false;
             _damageAudioSource.PlayOneShot(_damageAudioClips[1]);
-            destroyAllEnemies();
+            Time.timeScale = 0f;
             UIManger.instance.LoseScreen();
         }
     }
@@ -65,13 +65,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         GameObject[] enemiesList = GameObject.FindGameObjectsWithTag("Enemy");
 
-        foreach(GameObject enemy in enemiesList)
+        foreach (GameObject enemy in enemiesList)
         {
             Destroy(enemy);
         }
     }
-
-
 
 
 }

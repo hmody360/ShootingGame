@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ScrewDriver_item
   m_EditorClassIdentifier: Assembly-CSharp::itemData
   itemID: 1
-  itemName: ScreDriver
+  itemName: Screwdriver
   icon: {fileID: 21300000, guid: 8c2798221513a1c4588ec6b508a80c08, type: 3}

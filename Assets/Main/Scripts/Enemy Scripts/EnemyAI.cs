@@ -28,6 +28,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
     public AudioSource PatrolSFX;
     public AudioSource ChaseSFX;
     public AudioSource TalkSFX;
+    public AudioSource DamageSFX;
     // Attack parameters
     public float attackRange = 3f;
     public float attackDamage = 10f;
@@ -36,6 +37,8 @@ public class EnemyAI : MonoBehaviour, IDamageable
     //Animator
     private Animator _alienAnimator;
     private Rigidbody _alienRB;
+
+    [SerializeField] private AudioClip[] _damageAudioClips;
 
     bool isChasing = false;
    
@@ -237,6 +240,10 @@ public class EnemyAI : MonoBehaviour, IDamageable
         {
             onDeath();
         }
+        else
+        {
+            DamageSFX.PlayOneShot(_damageAudioClips[0]);
+        }
 
         if (!isChasing)
         {
@@ -251,6 +258,11 @@ public class EnemyAI : MonoBehaviour, IDamageable
         agent.isStopped = true;
         agent.enabled = false;
         _alienAnimator.SetTrigger("DeathTrigger");
+        WalkSFX.Stop();
+        TalkSFX.Stop();
+        ChaseSFX.Stop();
+        PatrolSFX.Stop();
+        DamageSFX.PlayOneShot(_damageAudioClips[1]);
         isDead = true;
         Destroy(transform.parent.gameObject, 1f);
     }
