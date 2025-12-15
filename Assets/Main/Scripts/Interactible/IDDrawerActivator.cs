@@ -7,6 +7,7 @@ public class IDDrawerActivator : MonoBehaviour, Iinteractable
     private Collider _collider;
     private AudioSource _DrawerAudio;
     [SerializeField] private AudioClip[] _audioClipList;
+    public string ActionName => "Look For ID";
 
 
     private void Awake()
@@ -19,6 +20,8 @@ public class IDDrawerActivator : MonoBehaviour, Iinteractable
 
     public void interact() //On Interact Start the Drawer Minigame, and play its music
     {
+        if (UIManger.instance.PauseGamePanel.activeSelf)
+            return;
         UIManger.instance.StartDrawerMinigame();
         _DrawerAudio.clip = _audioClipList[0];
         _DrawerAudio.Play();

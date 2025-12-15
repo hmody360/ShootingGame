@@ -7,6 +7,7 @@ public class WinActivator : MonoBehaviour, Iinteractable
     private AudioSource _winSequenceAudioSource;
     private Collider _collider;
     [SerializeField] private AudioClip[] _winSequenceAudioClips;
+    public string ActionName => "Open The Escape Pod";
 
     private void Awake()
     {

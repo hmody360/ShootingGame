@@ -22,6 +22,8 @@ public class UIManger : MonoBehaviour
     [Header("Panels")]
     public GameObject collectiblesPanel;
     public GameObject DrawerMiniGamePanel;
+    public GameObject PauseGamePanel;
+    public GameObject SettingsPanel;
     public GameObject LosePanel;
     public GameObject winPanel;
     public GameObject trueEndPanel;
@@ -31,6 +33,7 @@ public class UIManger : MonoBehaviour
     public Image[] collectibleSlots;
     public List<ObjectiveData> objectiveList;
     public TextMeshProUGUI objectiveListText;
+    public TextMeshProUGUI PromptText;
 
     [Header("Ammo UI")]
     public TextMeshProUGUI currentAmmoUI;
@@ -88,6 +91,21 @@ public class UIManger : MonoBehaviour
 
         float SavedVolume = PlayerPrefs.GetFloat("MasterVolume", 1f);
         AudioListener.volume = SavedVolume;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (PauseGamePanel.activeSelf)
+            {
+                ResumeGame();
+            }
+            else if (!SettingsPanel.activeSelf && !winPanel.activeSelf && !trueEndPanel.activeSelf && !creditsPanel.activeSelf)
+            {
+                PauseGame();
+            }
+        }
     }
 
     //UI UPDATE METHODS
@@ -160,11 +178,19 @@ public class UIManger : MonoBehaviour
     public void ReloadCurrentScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (Time.timeScale == 0f)
+        {
+            Time.timeScale = 1f;
+        }
     }
 
     public void ExitGame()
     {
         SceneManager.LoadScene("MainMenu");
+        if(Time.timeScale == 0f)
+        {
+            Time.timeScale = 1f;
+        }
     }
     public void winScreen()
     {
@@ -267,7 +293,60 @@ public class UIManger : MonoBehaviour
         DrawerMiniGamePanel.SetActive(false);
         GameObject.FindGameObjectWithTag("IDDrawer").GetComponent<IDDrawerActivator>().CloseGame();
         _FPCamera.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
         Camera.main.gameObject.GetComponent<RayInetractor>().enabled = false;
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
+        HUD.SetActive(false);
+        _FPCamera.SetActive(false);
+        Cursor.lockState = CursorLockMode.Confined;
+        Camera.main.gameObject.GetComponent<RayInetractor>().enabled = false;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().canMove = false;
+        if (DrawerMiniGamePanel.activeSelf)
+        {
+            CloseDrawerMiniGame();
+        }
+        PauseGamePanel.SetActive(true);
+    }
+
+    public void ResumeGame()
+    {
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+        Time.timeScale = 1f;
+        HUD.SetActive(true);
+        _FPCamera.SetActive(true);
+        Cursor.lockState = CursorLockMode.Locked;
+        Camera.main.gameObject.GetComponent<RayInetractor>().enabled = true;
+        player.GetComponent<PlayerMovement>().canMove = true;
+        UpdateHealth(playerHealth.currentHealth, playerHealth.maxHealth);
+        PauseGamePanel.SetActive(false);
+    }
+
+    public void OpenSettingsInGame()
+    {
+        PauseGamePanel.SetActive(false);
+        SettingsPanel.SetActive(true);
+    }
+
+    public void CloseSettingsInGame()
+    {
+        PauseGamePanel.SetActive(true);
+        SettingsPanel.SetActive(false);
+    }
+
+    public void ShowPromptText(string text)
+    {
+        PromptText.text = text;
+    }
+
+    public void HidePromptText()
+    {
+        PromptText.text = "";
     }
 
     IEnumerator DamageEffect()

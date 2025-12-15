@@ -8,6 +8,7 @@ public class escapeitem : MonoBehaviour, Iinteractable
     [SerializeField] private GameObject Player;
     [SerializeField] private int objectiveID;
     [SerializeField] private bool destroyOnInteract = true;
+    public string ActionName => "Take " + itemData.itemName;
 
     private void Start()
     {

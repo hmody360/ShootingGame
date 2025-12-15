@@ -22,7 +22,8 @@ public class RayGun : MonoBehaviour, Iinteractable
     [SerializeField] private float _fireTimer;
     [SerializeField] private Transform _cameraTransform;
     [SerializeField] private ParticleSystem _MuzzleShot;
-    
+    public string ActionName => "Eqip Raygun";
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {

@@ -22,9 +22,10 @@ public class RayInetractor : MonoBehaviour
         {
             GameObject currentGameObject = hit.collider.gameObject;
             Outline currentOutlined = currentGameObject.GetComponent<Outline>();
+            Iinteractable item = currentGameObject.transform.GetComponent<Iinteractable>();
+            UIManger.instance.ShowPromptText(item.ActionName);
 
-
-            if(currentOutlined != _lastHitOutline) //Disable outlines once not looking at the current item
+            if (currentOutlined != _lastHitOutline) //Disable outlines once not looking at the current item
             {
                 DisableCurrentOutline();
                 _lastHitOutline = currentOutlined;
@@ -34,7 +35,7 @@ public class RayInetractor : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
-                Iinteractable item = currentGameObject.transform.GetComponent<Iinteractable>();
+                
 
                 if (item != null)
                 {
@@ -45,6 +46,7 @@ public class RayInetractor : MonoBehaviour
         }
         else
         {
+            UIManger.instance.HidePromptText();
             DisableCurrentOutline();
         }
     }

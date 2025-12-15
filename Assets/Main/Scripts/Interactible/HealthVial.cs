@@ -5,8 +5,9 @@ public class HealthVial : MonoBehaviour, Iinteractable
     public float healAmount;
     public float damageAmount;
     private AudioSource _audioSource;
-
     private PlayerHealth _healthToAffect;
+
+    public string ActionName => "Use Health Vial";
 
     private void Awake()
     {
